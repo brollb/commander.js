@@ -609,6 +609,14 @@ Command.prototype.normalize = function(args) {
 Command.prototype.parseArgs = function(args, unknown) {
   var name;
 
+  // Check for all the required args
+  for (var i = 0; i < this._args.length; i++) {
+    if (this._args[i].required && !this.args[i]) {
+        this.outputHelp();
+        process.exit(0);
+    }
+  }
+
   if (args.length) {
     name = args[0];
     if (this.listeners(name).length) {
